@@ -46,7 +46,19 @@ namespace Game.DI
             entriesMap[key] = diEntry;
         }
 
-        public object Resolve(Type type)
+        public bool TryResolve(Type parameterType, out object value)
+        {
+            value = Resolve(parameterType);
+
+            if (value != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private object Resolve(Type type)
         {
             if (resolutionsCache.Contains(type))
             {
@@ -73,11 +85,6 @@ namespace Game.DI
             }
 
             throw new Exception($"Couldn't find dependency for type {type.FullName}");
-        }
-
-        public T Resolve<T>()
-        {
-            return (T)Resolve(typeof(T));
         }
 
         public void Dispose()

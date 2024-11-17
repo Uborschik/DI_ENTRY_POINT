@@ -1,5 +1,4 @@
 using Game.DI;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -11,9 +10,8 @@ namespace Game.Root
         private static GameEntryPoint instance;
 
         private readonly UIRootView uiRoot;
+        private readonly SceneLoader sceneLoader;
         private readonly DIContainer rootContainer = new();
-        private DIContainer cachedSceneContainer;
-
 
         public GameEntryPoint()
         {
@@ -21,7 +19,10 @@ namespace Game.Root
             uiRoot = Object.Instantiate(prefabUIRoot);
             Object.DontDestroyOnLoad(uiRoot.gameObject);
 
+            sceneLoader = new(uiRoot);
+
             rootContainer.RegisterInstance(uiRoot);
+            rootContainer.RegisterInstance(sceneLoader);
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -33,7 +34,7 @@ namespace Game.Root
             instance.RunGame();
         }
 
-        private void RunGame()
+        private async void RunGame()
         {
 #if UNITY_EDITOR
 
@@ -44,37 +45,18 @@ namespace Game.Root
                 if(SceneManager.GetSceneByBuildIndex(i).name == sceneName)
                 {
                     var scene = SceneManager.GetSceneByBuildIndex(i);
-                    var fitrstLoadParams = new SceneParams(scene.name, LoadAndStartSceneAt);
-                    LoadAndStartSceneAt(fitrstLoadParams);
+                    await sceneLoader.LoadAndStartSceneAt(sceneName, CreateSceneParams);
                 }
             }
 
+            void CreateSceneParams()
+            {
+                var sceneRootBinder = Object.FindFirstObjectByType<Context>();
+
+                sceneRootBinder.Run(rootContainer);
+            }
+
 #endif
-        }
-
-        private async void LoadAndStartSceneAt(SceneParams enterParams = null)
-        {
-            uiRoot.ShowLoadingScreen();
-            cachedSceneContainer?.Dispose();
-
-            await LoadScene(SceneNames.BOOT);
-            await LoadScene(enterParams.SceneName);
-
-            await Awaitable.WaitForSecondsAsync(.2f);
-
-            var sceneRootBinder = Object.FindFirstObjectByType<SceneEntryPoint>();
-            var sceneContainer = cachedSceneContainer = new(rootContainer);
-
-            sceneContainer.RegisterInstance(enterParams);
-            var exitParams = sceneRootBinder.Run(sceneContainer);
-            exitParams.Subscribe((e) => LoadAndStartSceneAt(e));
-
-            uiRoot.HideLoadingScreen();
-        }
-
-        private async Task LoadScene(string name)
-        {
-            await SceneManager.LoadSceneAsync(name);
         }
     }
 }

@@ -7,6 +7,9 @@ namespace Game.MainMenu.Root
     {
         protected override void SceneInstaller(DIContainer container)
         {
+            //var uiScene = Instantiate(SceneRootBinder);
+            //UIRoot.AttachSceneUI(uiScene.gameObject);
+            //uiScene.Bind(SceneLoader.LoadAndStartSceneAt, SceneNames.GAMEPLAY);
         }
     }
 }

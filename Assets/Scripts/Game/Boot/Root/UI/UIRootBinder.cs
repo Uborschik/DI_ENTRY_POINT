@@ -6,19 +6,16 @@ namespace Game.Gameplay.Root
 {
     public class UIRootBinder : MonoBehaviour
     {
-        public Action<SceneParams> ToScene;
+        public Action<string, Action> LoadScene;
 
-        private SceneParams targetParams;
+        //public void GoToScene()
+        //{
+        //    LoadScene?.Invoke(SceneNames., null);
+        //}
 
-        public void GoToScene()
-        {
-            ToScene?.Invoke(targetParams);
-        }
-
-        public void Bind(SceneParams currentParams)
-        {
-            targetParams = currentParams;
-            ToScene = currentParams.LoadScene;
-        }
+        //public void Bind(Action<string, Action> loadScene)
+        //{
+        //    LoadScene = loadScene;
+        //}
     }
 }

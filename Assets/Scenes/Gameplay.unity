@@ -393,7 +393,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1598152524}
-  - component: {fileID: 1598152523}
+  - component: {fileID: 1598152525}
+  - component: {fileID: 1598152526}
   m_Layer: 0
   m_Name: GameplayEntryPoint
   m_TagString: Untagged
@@ -401,19 +402,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1598152523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1598152522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3d3c63c490ef404eb1637891b38c684, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SceneRootBinder: {fileID: 4076753592950698540, guid: 49e532dc4a8cae84e9733b8c9574380e, type: 3}
 --- !u!4 &1598152524
 Transform:
   m_ObjectHideFlags: 0
@@ -429,6 +417,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1598152525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598152522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 394e4a4c7d5c008418e4aef7fbee4402, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monoInstallers:
+  - {fileID: 1598152526}
+--- !u!114 &1598152526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598152522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3d3c63c490ef404eb1637891b38c684, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1804822580
 GameObject:
   m_ObjectHideFlags: 0
